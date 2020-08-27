@@ -1,0 +1,16 @@
+<div class="bg-gray-accent-100">
+  <div class="container pt-5 pb-2">
+    <div class="d-flex flex-column flex-lg-row align-items-center">
+      <img
+        class="avatar"
+        [src]="profile['avatar_url']"
+      >
+      <div class="ml-3 text-center text-lg-left">
+        <h1>
+          {{ profile['name'] }}
+        </h1>
+        <p>This organization has {{ profile['public_repos'] }} repositories and {{ membersCount }} members</p>
+      </div>
+    </div>
+  </div>
+</div>

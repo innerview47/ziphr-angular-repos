@@ -1,0 +1,53 @@
+<div>
+  <div class="d-lg-flex flex-column">
+    <h3>{{ heading }}</h3>
+    <app-repos-search
+      (onSearch)="search($event)"
+    ></app-repos-search>
+  </div>
+  <div class="mt-3">
+    <div *ngIf="repos && repos.length">
+      <div class="max-h-rem-40 overflow-auto border-bottom"> 
+        <div
+          class="py-4 px-3 bg-gray-accent-100"
+          *ngFor="let repo of repos; let i = index"
+          [class]="{'mb-2' : (i !== (repos.length - 1))}"
+        >
+          <div class="d-flex justify-content-between">
+            <a
+              class="item flex-fill"
+              (click)="openDetails(repo.name)"
+            >
+              {{ repo.name }}
+            </a>
+            <span>
+              <i-bs class="text-warning" name="star-fill"></i-bs> {{ repo.stargazers_count }}
+            </span>
+          </div>
+          <span>{{ repo.description }}</span>
+          <div *ngIf="repo.hasOwnProperty('topics')">
+            <small
+              *ngFor="let topic of repo.topics.items; let i = index"
+              [class]="{'ml-2' : i !== 0}"
+            >
+              {{topic.name}}</small>
+          </div>
+        </div>
+      </div>
+      <pagination
+        class="mt-2 float-right"
+        [boundaryLinks]="true"
+        [itemsPerPage]="repos.length"
+        [maxSize]="4"
+        [totalItems]="totalCount"
+        (pageChanged)="pageChanged($event)"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;"
+      ></pagination>
+      <div class="clearfix"></div>
+    </div>
+    <p *ngIf="repos && !repos.length">No Data.</p>
+  </div>
+</div>

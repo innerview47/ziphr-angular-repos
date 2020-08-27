@@ -1,0 +1,62 @@
+<div class="form-group d-lg-flex">
+  <input
+    class="form-control mb-2 mb-lg-0"
+    type="text"
+    placeholder="Keywords"
+    [(ngModel)]="inputString"
+    (keyup)="emitSearch()"
+  >
+  <div class="btn-group languages ml-lg-1" dropdown>
+    <button
+      id="button-languages"
+      dropdownToggle
+      type="button"
+      class="btn btn-primary dropdown-toggle"
+      aria-controls="dropdown-languages"
+    >
+      Language: <strong>{{selectedLang}}</strong> <span class="caret"></span>
+    </button>
+    <ul id="dropdown-languages" *dropdownMenu class="dropdown-menu"
+        role="menu" aria-labelledby="button-languages">
+      <li *ngFor="let lang of languages" role="menuitem">
+        <a
+          class="dropdown-item"
+          (click)="setSelectedLang(lang)"
+        >
+        {{lang}}
+        <i-bs
+          *ngIf="lang === selectedLang"
+          name="check"
+        ></i-bs>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="btn-group types ml-1" dropdown>
+    <button
+      id="button-types"
+      dropdownToggle
+      type="button"
+      class="btn btn-primary dropdown-toggle"
+      aria-controls="dropdown-types"
+    >
+      Type: <strong>{{selectedType}}</strong> <span class="caret"></span>
+    </button>
+    <ul id="dropdown-types" *dropdownMenu class="dropdown-menu"
+        role="menu" aria-labelledby="button-types">
+      <li *ngFor="let type of types" role="menuitem">
+        <a
+          class="dropdown-item"
+          href="#"
+          (click)="setSelectedType(type)"
+        >
+          {{type}}
+          <i-bs
+            *ngIf="type === selectedType"
+            name="check"
+          ></i-bs>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+<div>
+  <app-header
+    [profile]="details"
+    [membersCount]="members.length"
+  ></app-header>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-7">
+        <div class="bg-light p-3">
+          <app-repos
+            [heading]="'Repositories'"
+            [repos]="repos['items']"
+            [totalCount]="repos['total_count']"
+            (onPageChanged)="paginateTo($event, 'repos')"
+            (onSearch)="getRepos($event)"
+            (onOpenDetails)="repoModal.show(); getRepoDetails($event)"
+          ></app-repos>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="bg-light p-3">
+          <app-users
+            [heading]="'People'"
+            [users]="members"
+          ></app-users>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- REPO MODAL -->
+  <div bsModal #repoModal="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+        <button type="button" class="close pull-right" (click)="repoModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <tabset [justified]="true">
+          <tab heading="ReadME">
+            <markdown
+              [src]="readMe['download_url']"
+              lineNumbers
+              [start]="5"
+            ></markdown>
+          </tab>
+          <tab heading="Commits">
+            <div *ngIf="commits.hasOwnProperty('items') && commits['items'].length">
+              <div
+                class="py-4 px-3 bg-gray-accent-100 mb-2"
+                *ngFor="let commit of commits['items']; let i = index"
+              >
+                <div class="d-flex justify-content-between">
+                  <a
+                    class="item text-wrap text-break w-100"
+                    [href]="commit.html_url"
+                    target="_blank"
+                  >
+                    {{ commit.sha }}
+                  </a>
+                </div>
+              </div>
+              <pagination
+                class="mt-2 float-right"
+                [boundaryLinks]="true"
+                [itemsPerPage]="commits.hasOwnProperty('items') ? commits['items'].length : 0"
+                [maxSize]="4"
+                [totalItems]="commits['total_count']"
+                (pageChanged)="pageChanged($event, 'commits')"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;"
+              ></pagination>
+            </div>
+            <p
+              class="mt-2"
+              *ngIf="!commits.hasOwnProperty('items') || (commits.hasOwnProperty('items') && !commits['items'].length)">
+              No data.
+            </p>
+          </tab>
+          <tab heading="Issues">
+            <div *ngIf="issues.hasOwnProperty('items') && issues['items'].length">
+              <div
+                class="py-4 px-3 bg-gray-accent-100 mb-2"
+                *ngFor="let issue of issues['items']; let i = index"
+              >
+                <div class="d-lg-flex justify-content-between">
+                  <div>
+                    <a
+                      class="item flex-fill"
+                      [href]="issue['html_url']"
+                      target="_blank"
+                    >
+                      {{ issue.title }}
+                    </a>
+                    <div>
+                      <small
+                        class="badge"
+                        *ngFor="let label of issue['labels']"
+                        [class]="{
+                          'd-none': label['name'].toLowerCase().indexOf('type') === -1,
+                          'badge-primary': label['name'].toLowerCase().indexOf('bug') === -1,
+                          'badge-danger': label['name'].toLowerCase().indexOf('bug') > -1
+                        }"
+                      >
+                        {{label.name.replace('type:', '')}}
+                      </small>
+                    </div>
+                  </div>
+                  <div>
+                    <small>{{ issue.created_at }}</small><br>
+                    <small>
+                      Opened by
+                      <a [href]="issue.user.html_url" target="_blank">
+                        {{ issue.user.login }}
+                      </a>
+                    </small>
+                  </div>
+                </div>
+              </div>
+              <pagination
+                class="mt-2 float-right"
+                [boundaryLinks]="true"
+                [itemsPerPage]="issues.hasOwnProperty('items') ? issues['items'].length : 0"
+                [maxSize]="4"
+                [totalItems]="issues['total_count']"
+                (pageChanged)="pageChanged($event, 'issues')"
+                previousText="&lsaquo;"
+                nextText="&rsaquo;"
+                firstText="&laquo;"
+                lastText="&raquo;"
+              ></pagination>
+            </div>
+            <p
+              class="mt-2"
+              *ngIf="!issues.hasOwnProperty('items') || (issues.hasOwnProperty('items') && !issues['items'].length)">
+              No data.
+            </p>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
