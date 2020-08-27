@@ -30,7 +30,6 @@ export class ReposComponent implements OnInit {
           headers: new HttpHeaders({'Accept': 'application/vnd.github.mercy-preview+json'})
         })
       })).then(res => {
-        console.log(res, 'hahaha')
         this.repos = this.repos.map(repo => {
           return {
             ...repo,
