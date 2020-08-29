@@ -33,8 +33,8 @@ export class UsersComponent implements OnInit, OnChanges {
 
   search () {
     this.filtered = this.profiles.filter(profile => {
-      return (profile['name'] && profile['name'].toLowerCase().indexOf(this.searchString) > -1)
-      || (profile['login'] && profile['login'].toLowerCase().indexOf(this.searchString) > -1)
+      return (profile['name'] && profile['name'].toLowerCase().indexOf(this.searchString.toLowerCase()) > -1)
+      || (profile['login'] && profile['login'].toLowerCase().indexOf(this.searchString.toLowerCase()) > -1)
     })
   }
 
