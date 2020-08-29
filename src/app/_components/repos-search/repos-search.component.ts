@@ -16,9 +16,20 @@ export class ReposSearchComponent implements OnInit {
   types = ['All', 'Forked', 'Archived', 'Mirror']
   selectedLang = ''
   selectedType = ''
+  typingTimer = 0
+  typingInterval = 1000
   constructor() { }
 
   ngOnInit(): void {
+  }
+  set _isTyping (val) {
+    clearTimeout(this.typingTimer)
+    if (val) {
+      this.typingTimer = setTimeout(() => this.emitSearch(), this.typingInterval)
+    }
+  }
+  clearInterval () {
+    clearTimeout(this.typingTimer)
   }
   emitSearch() {
     let searchString = this.inputString

@@ -4,7 +4,8 @@
     type="text"
     placeholder="Keywords"
     [(ngModel)]="inputString"
-    (keyup)="emitSearch()"
+    (keyup)="_isTyping = true"
+    (kedown)="clearInterval()"
   >
   <div class="btn-group languages ml-lg-1" dropdown>
     <button
